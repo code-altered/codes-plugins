@@ -1,6 +1,14 @@
 # Oofie Plugins
 
-External plugins for OpenOSRS.
+- External plugins for OpenOSRS.
+
+- Currently WIP.
+
+# Bugs to Fix
+
+- Continue plugin on level up
+
+- Fix cases of withdrawing too fast
 
 # Use
 
@@ -10,18 +18,19 @@ You will need to add **three** repositories. Mine, illumines for botutils/iUtils
 Botutils will need to be manually downloaded and added via https://github.com/illumineawake/illu-plugins/tree/master/release
 
 Mine:
-**Github Repository owner:** MeApeSmallBrain
 
-**Github Repository name:** oofie-plugins
+- **Github Repository owner:** MeApeSmallBrain
+
+- **Github Repository name:** oofie-plugins
 
 illumine's:
 
-**Github Repository owner:** illumineawake
+- **Github Repository owner:** illumineawake
 
-**Github Repository name:** illu-plugins
+- **Github Repository name:** illu-plugins
 
-owain's:
+Owain's:
 
-**Github Repository owner:** illumineawake
+- **Github Repository owner:** Owain94
 
-**Github Repository name:** illu-plugins
+- **Github Repository name:** OpenOSRS-external-plugins-hosting
