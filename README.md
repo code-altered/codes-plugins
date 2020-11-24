@@ -1,10 +1,9 @@
 # Oofie Plugins
 
-- GlassMaker
+- GlassMaker (WIP)
 
   - Makes Molten Glass in Edgeville Furnace. Requires Buckets of Sand and Soda Ash.
 
-- 
 
 # Bugs to Fix
 
