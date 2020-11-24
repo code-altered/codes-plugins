@@ -14,7 +14,7 @@
 
 **Supported plugins:**
 
-You will need to add **three** repositories. Mine, illumines for botutils/iUtils, and Owains.
+You will need to add **three** repositories. Mine, illumines for botutils/iUtils, and Owains (chinbreakhandler)
 Botutils will need to be manually downloaded and added via https://github.com/illumineawake/illu-plugins/tree/master/release
 
 Mine:
