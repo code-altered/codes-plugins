@@ -19,18 +19,18 @@ Botutils will need to be manually downloaded and added via https://github.com/il
 
 Mine:
 
-- **Github Repository owner:** MeApeSmallBrain
+- **Owner:** MeApeSmallBrain
 
-- **Github Repository name:** oofie-plugins
+- **Name:** oofie-plugins
 
 illumine's:
 
-- **Github Repository owner:** illumineawake
+- **Owner:** illumineawake
 
-- **Github Repository name:** illu-plugins
+- **Name:** illu-plugins
 
 Owain's:
 
-- **Github Repository owner:** Owain94
+- **Owner:** Owain94
 
-- **Github Repository name:** OpenOSRS-external-plugins-hosting
+- **Name:** OpenOSRS-external-plugins-hosting
