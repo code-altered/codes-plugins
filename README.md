@@ -1,8 +1,10 @@
 # Oofie Plugins
 
-- External plugins for OpenOSRS.
+- GlassMaker
 
-- Currently WIP.
+  - Makes Molten Glass in Edgeville Furnace. Requires Buckets of Sand and Soda Ash.
+
+- 
 
 # Bugs to Fix
 
