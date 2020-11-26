@@ -13,18 +13,18 @@ You will need to add **three** repositories. Mine, illumines, and Owains.
 
 Mine:
 
-**Github Repository owner:** MeApeSmallBrain
+- **Owner:** MeApeSmallBrain
 
-**Github Repository name:** oofie-plugins
+- **Name:** oofie-plugins
 
 illumine's:
 
-**Github Repository owner:** illumineawake
+- **Owner:** illumineawake
 
-**Github Repository name:** illu-plugins
+- **Name:** illu-plugins
 
 owain's:
 
-**Github Repository owner:** illumineawake
+- **Owner:** illumineawake
 
-**Github Repository name:** illu-plugins
+- **Name:** illu-plugins
