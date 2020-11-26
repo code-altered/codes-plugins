@@ -1,6 +1,8 @@
 # Oofie Plugins
-
-External plugins for OpenOSRS.
+Molten Glass Maker
+- Start in Edgeville bank. Have Buckets of Sand and Soda Ash.
+- Bugs
+    - Run being turned on while making glass will cause the bot to get stuck in "Animating"
 
 # Use
 
