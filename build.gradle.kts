@@ -36,7 +36,7 @@ subprojects {
     group = "com.openosrs.externals"
 
     project.extra["PluginProvider"] = "Birthday Cat#0376"
-    project.extra["ProjectSupportUrl"] = ""
+    project.extra["ProjectSupportUrl"] = "https://discord.gg/2f7SWkDuzh"
     project.extra["PluginLicense"] = "3-Clause BSD License"
 
     repositories {

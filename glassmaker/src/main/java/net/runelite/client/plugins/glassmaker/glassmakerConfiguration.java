@@ -236,8 +236,8 @@ public interface glassmakerConfiguration extends Config
 	}
 
 	@ConfigTitleSection(
-		keyName = "plankmakerTitle",
-		name = "Plank Maker Configuration",
+		keyName = "glassmakerTitle",
+		name = "Glass Maker Configuration",
 		description = "",
 		position = 60
 	)

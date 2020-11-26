@@ -11,12 +11,30 @@ import net.runelite.api.events.ConfigButtonClicked;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.GameTick;
 import net.runelite.api.events.MenuOptionClicked;
+import net.runelite.api.widgets.Widget;
+import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.plugins.*;
-import net.runelite.client.plugins.botutils.BotUtils;
-import net.runelite.client.plugins.botutils.Mouse;
+import net.runelite.client.plugins.Plugin;
+import net.runelite.api.MenuEntry;
+import net.runelite.client.plugins.*;
+import net.runelite.client.plugins.iutils.BankUtils;
+import net.runelite.client.plugins.iutils.CalculationUtils;
+import net.runelite.client.plugins.iutils.InterfaceUtils;
+import net.runelite.client.plugins.iutils.InventoryUtils;
+import net.runelite.client.plugins.iutils.MenuUtils;
+import net.runelite.client.plugins.iutils.MouseUtils;
+import net.runelite.client.plugins.iutils.NPCUtils;
+import net.runelite.client.plugins.iutils.ObjectUtils;
+import net.runelite.client.plugins.iutils.PlayerUtils;
+import net.runelite.client.plugins.iutils.WalkUtils;
+import net.runelite.client.plugins.iutils.KeyboardUtils;
+import net.runelite.client.plugins.iutils.iUtils;
+
+
+
 import net.runelite.client.ui.overlay.OverlayManager;
 import org.pf4j.Extension;
 
@@ -29,7 +47,7 @@ import java.util.Set;
 import static net.runelite.client.plugins.glassmaker.glassmakerState.*;
 
 @Extension
-@PluginDependency(BotUtils.class)
+@PluginDependency(iUtils.class)
 @PluginDescriptor(
 	name = "Oofie GlassMaker",
 	enabledByDefault = false,
@@ -46,7 +64,40 @@ public class glassmakerPlugin extends Plugin {
 	private glassmakerConfiguration config;
 
 	@Inject
-	private BotUtils utils;
+	private iUtils utils;
+
+	@Inject
+	private MouseUtils mouse;
+
+	@Inject
+	private PlayerUtils playerUtils;
+
+	@Inject
+	private InventoryUtils inventory;
+
+	@Inject
+	private InterfaceUtils interfaceUtils;
+
+	@Inject
+	private CalculationUtils calc;
+
+	@Inject
+	private MenuUtils menu;
+
+	@Inject
+	private ObjectUtils object;
+
+	@Inject
+	private BankUtils bank;
+
+	@Inject
+	private NPCUtils npc;
+
+	@Inject
+	private KeyboardUtils key;
+
+	@Inject
+	private WalkUtils walk;
 
 	@Inject
 	private ConfigManager configManager;
@@ -63,11 +114,13 @@ public class glassmakerPlugin extends Plugin {
 
 	glassmakerState state;
 	GameObject targetObject;
+	NPC targetNPC;
 	MenuEntry targetMenu;
 	WorldPoint skillLocation;
 	Instant botTimer;
 	LocalPoint beforeLoc;
 	Player player;
+
 
 	WorldArea EDGE = new WorldArea(new WorldPoint(3084, 3486, 0), new WorldPoint(3100, 3501, 0));
 	WorldPoint FURNACE = new WorldPoint(3109, 3499, 0);
@@ -143,52 +196,52 @@ public class glassmakerPlugin extends Plugin {
 	}
 
 	private long sleepDelay() {
-		sleepLength = utils.randomDelay(config.sleepWeightedDistribution(), config.sleepMin(), config.sleepMax(), config.sleepDeviation(), config.sleepTarget());
+		sleepLength = calc.randomDelay(config.sleepWeightedDistribution(), config.sleepMin(), config.sleepMax(), config.sleepDeviation(), config.sleepTarget());
 		return sleepLength;
 	}
 
 	private int tickDelay() {
-		int tickLength = (int) utils.randomDelay(config.tickDelayWeightedDistribution(), config.tickDelayMin(), config.tickDelayMax(), config.tickDelayDeviation(), config.tickDelayTarget());
+		int tickLength = (int) calc.randomDelay(config.tickDelayWeightedDistribution(), config.tickDelayMin(), config.tickDelayMax(), config.tickDelayDeviation(), config.tickDelayTarget());
 		log.debug("tick delay for {} ticks", tickLength);
 		return tickLength;
 	}
 
 	private void openBank() {
-		NPC npc = utils.findNearestNpc(1618);
+		targetNPC = npc.findNearestNpc(1618);
 		if (npc != null) {
 			targetMenu = new MenuEntry("", "",
-					npc.getIndex(), MenuOpcode.NPC_THIRD_OPTION.getId(), 0, 0, false);
-			utils.setMenuEntry(targetMenu);
-			utils.delayMouseClick(npc.getConvexHull().getBounds(), sleepDelay());
+					targetNPC.getIndex(), MenuOpcode.NPC_THIRD_OPTION.getId(), 0, 0, false);
+			menu.setEntry(targetMenu);
+			mouse.delayMouseClick(targetNPC.getConvexHull().getBounds(), sleepDelay());
 		}
 	}
 
 	private void useFurnace() {
-		targetObject = utils.findNearestGameObject(16469);
+		targetObject = object.findNearestGameObject(16469);
 		if (targetObject != null) {
 			targetMenu = new MenuEntry("Smelt", "<col=ffff>Furnace", targetObject.getId(), 4, targetObject.getSceneMinLocation().getX(), targetObject.getSceneMinLocation().getY(), false);
-			utils.setMenuEntry(targetMenu);
-			utils.delayMouseClick(targetObject.getConvexHull().getBounds(), sleepDelay());
+			menu.setEntry(targetMenu);
+			mouse.delayMouseClick(targetObject.getConvexHull().getBounds(), sleepDelay());
 		}
 	}
 
 	private Point getRandomNullPoint() {
 		if (client.getWidget(161, 34) != null) {
 			Rectangle nullArea = client.getWidget(161, 34).getBounds();
-			return new Point((int) nullArea.getX() + utils.getRandomIntBetweenRange(0, nullArea.width), (int) nullArea.getY() + utils.getRandomIntBetweenRange(0, nullArea.height));
+			return new Point((int) nullArea.getX() + calc.getRandomIntBetweenRange(0, nullArea.width), (int) nullArea.getY() + calc.getRandomIntBetweenRange(0, nullArea.height));
 		}
 
-		return new Point(client.getCanvasWidth() - utils.getRandomIntBetweenRange(0, 2), client.getCanvasHeight() - utils.getRandomIntBetweenRange(0, 2));
+		return new Point(client.getCanvasWidth() - calc.getRandomIntBetweenRange(0, 2), client.getCanvasHeight() - calc.getRandomIntBetweenRange(0, 2));
 	}
 
 	private glassmakerState getBankState() {
-		if (utils.inventoryContains(ItemID.BUCKET_OF_SAND) && utils.inventoryContains(ItemID.SODA_ASH)) {
+		if (inventory.containsItem(ItemID.BUCKET_OF_SAND) && inventory.containsItem(ItemID.SODA_ASH)) {
 			return WALK_TO_FURNACE;
 		}
-		if (utils.inventoryContains(ItemID.MOLTEN_GLASS)) {
+		if (inventory.containsItem(ItemID.MOLTEN_GLASS)) {
 			return DEPOSIT_ITEMS;
 		}
-		if (!utils.inventoryContains(ItemID.MOLTEN_GLASS)) {
+		if (!inventory.containsItem(ItemID.MOLTEN_GLASS)) {
 			return WITHDRAWING_ITEMS;
 		} else {
 			utils.sendGameMessage("Ran out of Items");
@@ -201,23 +254,31 @@ public class glassmakerPlugin extends Plugin {
 		if (timeout > 0) {
 			return TIMEOUT;
 		}
-		if (utils.isMoving(beforeLoc)) {
-			timeout = 2 + tickDelay();
+		if (playerUtils.isMoving(beforeLoc)) {
+			timeout = 1 + tickDelay();
 			return MOVING;
 		}
-		if (utils.isBankOpen()) {
+		if (bank.isOpen()) {
 			return getBankState();
 		}
-		if (client.getLocalPlayer().getAnimation() != -1) {
+		Widget lvlup = client.getWidget(WidgetInfo.LEVEL_UP_SKILL);
+		if (lvlup != null && !lvlup.isHidden()) {
+			if (inventory.containsItem(ItemID.SODA_ASH)) {
+				return WALK_TO_FURNACE;
+			} else {
+				return FIND_BANK;
+			}
+		}
+		if (player.getAnimation() == 899 || player.getAnimation() == 827) {
 			return ANIMATING;
 		}
-		if ((utils.getInventoryItemCount(ItemID.BUCKET, false) > 13 && utils.getInventoryItemCount(ItemID.MOLTEN_GLASS, false) > 13) || (player.getWorldArea().intersectsWith(EDGE) && utils.inventoryFull())) {
+		if ((inventory.getItemCount(ItemID.BUCKET, false) > 13 && inventory.getItemCount(ItemID.MOLTEN_GLASS, false) > 13) || (player.getWorldArea().intersectsWith(EDGE) && inventory.isFull())) {
 			return FIND_BANK;
 		}
-		if (utils.inventoryFull()) {
+		if (inventory.isFull()) {
 			return getGlassMakerState();
 		}
-		if (player.getWorldArea().intersectsWith(EDGE) && !utils.inventoryFull()) {
+		if (player.getWorldArea().intersectsWith(EDGE) && !inventory.isEmpty()) {
 			openBank();
 		}
 		return IDLE;
@@ -239,7 +300,7 @@ public class glassmakerPlugin extends Plugin {
 			beforeLoc = player.getLocalLocation();
 			switch (state) {
 				case TIMEOUT:
-					utils.handleRun(30, 20);
+					playerUtils.handleRun(30, 20);
 					timeout--;
 					break;
 				case WALK_TO_FURNACE:
@@ -253,8 +314,10 @@ public class glassmakerPlugin extends Plugin {
 					withdrawItems();
 					break;
 				case ANIMATING:
+					timeout = 1;
+					break;
 				case MOVING:
-					utils.handleRun(30, 20);
+					playerUtils.handleRun(30, 20);
 					timeout = tickDelay();
 					break;
 				case FIND_BANK:
@@ -266,11 +329,12 @@ public class glassmakerPlugin extends Plugin {
 					timeout = tickDelay();
 					break;
 				case IDLE:
-					if (!utils.inventoryContains(ItemID.SODA_ASH)) {
+					if (!inventory.containsItem(ItemID.SODA_ASH))
 						openBank();
-						break;
-					}
+					else if (inventory.containsItem(ItemID.SODA_ASH))
+						useFurnace();
 			}
+
 		}
 	}
 
@@ -283,45 +347,50 @@ public class glassmakerPlugin extends Plugin {
 	}
 
 	private void withdrawItems() {
-		if (utils.inventoryContains(ItemID.MOLTEN_GLASS) && utils.inventoryContains(ItemID.BUCKET))
-			utils.depositAll();
-		else if (utils.inventoryEmpty() && utils.isBankOpen()) {
+		if (inventory.containsItem(ItemID.MOLTEN_GLASS) && inventory.containsItem(ItemID.BUCKET))
+			bank.depositAll();
+		else if (inventory.isEmpty() && bank.isOpen()) {
 			withdrawX(1783);
+			tickDelay();
 		}
-		if (utils.inventoryContains(ItemID.BUCKET_OF_SAND))
+		if (inventory.containsItem(ItemID.BUCKET_OF_SAND))
 			withdrawX(1781);
 	}
 
 	private void depositItems() {
-		if (utils.inventoryFull() && utils.isBankOpen())
-			utils.depositAll();
-}
-	private void makeGlass() {
-		targetMenu = new MenuEntry("Make", "<col=ff9040>Molten glass</col>", 1, 57, -1, 17694734, false);
-		utils.delayMouseClick(client.getWidget(270,14).getBounds(), sleepDelay());
-		}
-
-	private glassmakerState getGlassMakerState()
-	{
-		if (client.getWidget(270,14)!=null){
-				return MAKE_GLASS;
-		}
-				return TIMEOUT;
+		if (inventory.isFull() && bank.isOpen())
+			bank.depositAll();
 	}
 
+	private void makeGloss() { ///Old method.
+		targetMenu = new MenuEntry("Make", "<col=ff9040>Molten glass</col>", 1, 57, -1, 17694734, false);
+		mouse.delayMouseClick(client.getWidget(270, 14).getBounds(), sleepDelay());
+	}
+	private void makeGlass() {
+		utils.doActionMsTime(new MenuEntry("Make", "<col=ff9040>Molten glass</col>", 1, 57, -1, 17694734, false), client.getWidget(270,14).getBounds(), sleepDelay());
+		{
+			mouse.getClickPoint(client.getWidget(270,14).getBounds());
+		}
+	}
+	private glassmakerState getGlassMakerState() {
+		if (client.getWidget(270, 14) != null) {
+			return MAKE_GLASS;
+		}
+		return TIMEOUT;
+	}
 	@Subscribe
 	private void onMenuOptionClicked(MenuOptionClicked event){
 		log.info(event.toString());
 	}
 	private void withdrawX(int ID){
 		if(client.getVarbitValue(3960)!=14){
-			utils.withdrawItemAmount(ID,14);
+			bank.withdrawItemAmount(ID,14);
 			timeout+=3;
 		} else {
-			targetMenu = new MenuEntry("", "", (client.getVarbitValue(6590) == 3) ? 1 : 5, MenuOpcode.CC_OP.getId(), utils.getBankItemWidget(ID).getIndex(), 786444, false);
-			utils.setMenuEntry(targetMenu);
-			clickBounds = utils.getBankItemWidget(ID).getBounds()!=null ? utils.getBankItemWidget(ID).getBounds() : new Rectangle(client.getCenterX() - 50, client.getCenterY() - 50, 100, 100);
-			utils.delayMouseClick(clickBounds,sleepDelay());
+			targetMenu = new MenuEntry("", "", (client.getVarbitValue(6590) == 3) ? 1 : 5, MenuOpcode.CC_OP.getId(), bank.getBankItemWidget(ID).getIndex(), 786444, false);
+			menu.setEntry(targetMenu);
+			clickBounds = bank.getBankItemWidget(ID).getBounds()!=null ? bank.getBankItemWidget(ID).getBounds() : new Rectangle(client.getCenterX() - 50, client.getCenterY() - 50, 100, 100);
+			mouse.delayMouseClick(clickBounds,sleepDelay());
 		}
 	}
 }

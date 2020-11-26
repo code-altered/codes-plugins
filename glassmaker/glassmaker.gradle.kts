@@ -29,7 +29,7 @@ project.extra["PluginName"] = "Oofie GlassMaker"
 project.extra["PluginDescription"] = "Automatically makes Molten Glass"
 
 dependencies {
-    compileOnly(group = "com.openosrs.externals", name = "botutils", version = "4.9.1");
+    compileOnly(group = "com.openosrs.externals", name = "iutils", version = "2.3.1");
 }
 
 tasks {
@@ -41,7 +41,7 @@ tasks {
                     "Plugin-Provider" to project.extra["PluginProvider"],
                     "Plugin-Dependencies" to
                             arrayOf(
-                                    nameToId("BotUtils"),
+                                    nameToId("iUtils"),
                                     "chinbreakhandler-plugin"
                             ).joinToString(),
                     "Plugin-Description" to project.extra["PluginDescription"],

@@ -1,37 +1,27 @@
 # Oofie Plugins
 
-- GlassMaker (WIP)
-
-  - Makes Molten Glass in Edgeville Furnace. Requires Buckets of Sand and Soda Ash.
-
-
-# Bugs to Fix
-
-- Continue plugin on level up
-
-- Fix cases of withdrawing too fast
+External plugins for OpenOSRS.
 
 # Use
 
 **Supported plugins:**
 
-You will need to add **three** repositories. Mine, illumines for botutils/iUtils, and Owains (chinbreakhandler)
+You will need to add **three** repositories. Mine, illumines for botutils/iUtils, and Owains.
 Botutils will need to be manually downloaded and added via https://github.com/illumineawake/illu-plugins/tree/master/release
 
 Mine:
+**Github Repository owner:** MeApeSmallBrain
 
-- **Owner:** MeApeSmallBrain
-
-- **Name:** oofie-plugins
+**Github Repository name:** oofie-plugins
 
 illumine's:
 
-- **Owner:** illumineawake
+**Github Repository owner:** illumineawake
 
-- **Name:** illu-plugins
+**Github Repository name:** illu-plugins
 
-Owain's:
+owain's:
 
-- **Owner:** Owain94
+**Github Repository owner:** illumineawake
 
-- **Name:** OpenOSRS-external-plugins-hosting
+**Github Repository name:** illu-plugins
