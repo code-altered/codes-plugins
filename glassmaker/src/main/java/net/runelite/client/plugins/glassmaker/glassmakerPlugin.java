@@ -2,36 +2,59 @@ package net.runelite.client.plugins.glassmaker;
 
 import com.google.inject.Provides;
 import lombok.extern.slf4j.Slf4j;
-import net.runelite.api.Point;
+import java.awt.Rectangle;
+
+///api
 import net.runelite.api.*;
+import net.runelite.api.Point;
+import net.runelite.api.Client;
+import net.runelite.api.MenuEntry;
+import net.runelite.api.MenuOpcode;
+import net.runelite.api.GameObject;
+import net.runelite.api.TileObject;
+import net.runelite.api.ObjectID;
+import net.runelite.api.NullObjectID;
+
 import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.coords.WorldArea;
 import net.runelite.api.coords.WorldPoint;
+
 import net.runelite.api.events.ConfigButtonClicked;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.GameTick;
 import net.runelite.api.events.MenuOptionClicked;
+
 import net.runelite.api.widgets.Widget;
+import net.runelite.api.widgets.WidgetID;
 import net.runelite.api.widgets.WidgetInfo;
-import net.runelite.client.config.ConfigManager;
+
+
+///client
 import net.runelite.client.eventbus.Subscribe;
+import net.runelite.client.config.ConfigManager;
 import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.plugins.*;
 import net.runelite.client.plugins.Plugin;
-import net.runelite.api.MenuEntry;
-import net.runelite.client.plugins.*;
+import net.runelite.client.plugins.PluginDependency;
+import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.client.plugins.PluginType;
+
+
+///iUtils
+import net.runelite.client.plugins.iutils.*;
+import net.runelite.client.plugins.iutils.ActionQueue;
 import net.runelite.client.plugins.iutils.BankUtils;
-import net.runelite.client.plugins.iutils.CalculationUtils;
-import net.runelite.client.plugins.iutils.InterfaceUtils;
 import net.runelite.client.plugins.iutils.InventoryUtils;
+import net.runelite.client.plugins.iutils.CalculationUtils;
 import net.runelite.client.plugins.iutils.MenuUtils;
 import net.runelite.client.plugins.iutils.MouseUtils;
-import net.runelite.client.plugins.iutils.NPCUtils;
 import net.runelite.client.plugins.iutils.ObjectUtils;
 import net.runelite.client.plugins.iutils.PlayerUtils;
-import net.runelite.client.plugins.iutils.WalkUtils;
-import net.runelite.client.plugins.iutils.KeyboardUtils;
-import net.runelite.client.plugins.iutils.iUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 
 
 
@@ -39,7 +62,6 @@ import net.runelite.client.ui.overlay.OverlayManager;
 import org.pf4j.Extension;
 
 import javax.inject.Inject;
-import java.awt.*;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
@@ -65,6 +87,9 @@ public class glassmakerPlugin extends Plugin {
 
 	@Inject
 	private iUtils utils;
+
+	@Inject
+	ActionQueue action;
 
 	@Inject
 	private MouseUtils mouse;
@@ -114,7 +139,6 @@ public class glassmakerPlugin extends Plugin {
 
 	glassmakerState state;
 	GameObject targetObject;
-	NPC targetNPC;
 	MenuEntry targetMenu;
 	WorldPoint skillLocation;
 	Instant botTimer;
@@ -207,15 +231,17 @@ public class glassmakerPlugin extends Plugin {
 	}
 
 	private void openBank() {
-		targetNPC = npc.findNearestNpc(1618);
-		if (npc != null) {
-			targetMenu = new MenuEntry("", "",
-					targetNPC.getIndex(), MenuOpcode.NPC_THIRD_OPTION.getId(), 0, 0, false);
-			menu.setEntry(targetMenu);
-			mouse.delayMouseClick(targetNPC.getConvexHull().getBounds(), sleepDelay());
+		GameObject bank = object.findNearestGameObject(config.bankID());
+		if (bank != null)
+		{
+			targetMenu = new MenuEntry("", "", bank.getId(), MenuOpcode.GAME_OBJECT_SECOND_OPTION.getId(),
+					bank.getSceneMinLocation().getX(), bank.getSceneMinLocation().getY(), false);
+			Rectangle rectangle = (bank.getConvexHull() != null) ? bank.getConvexHull().getBounds() :
+					new Rectangle(client.getCenterX() - 50, client.getCenterY() - 50, 100, 100);
+			;
+			utils.doActionMsTime(targetMenu, rectangle, sleepDelay());
 		}
 	}
-
 	private void useFurnace() {
 		targetObject = object.findNearestGameObject(16469);
 		if (targetObject != null) {
@@ -360,11 +386,6 @@ public class glassmakerPlugin extends Plugin {
 	private void depositItems() {
 		if (inventory.isFull() && bank.isOpen())
 			bank.depositAll();
-	}
-
-	private void makeGloss() { ///Old method.
-		targetMenu = new MenuEntry("Make", "<col=ff9040>Molten glass</col>", 1, 57, -1, 17694734, false);
-		mouse.delayMouseClick(client.getWidget(270, 14).getBounds(), sleepDelay());
 	}
 	private void makeGlass() {
 		utils.doActionMsTime(new MenuEntry("Make", "<col=ff9040>Molten glass</col>", 1, 57, -1, 17694734, false), client.getWidget(270,14).getBounds(), sleepDelay());

@@ -247,6 +247,19 @@ public interface glassmakerConfiguration extends Config
 	}
 
 	@ConfigItem(
+			keyName = "bankID",
+			name = "Bank Booth ID",
+			description = "Game Object ID of the Bank Booth you want to use",
+			position = 25
+	)
+	default int bankID()
+	{
+		return 10355;
+	}
+
+
+
+	@ConfigItem(
 		keyName = "enableUI",
 		name = "Enable UI",
 		description = "Enable to turn on in game UI",
