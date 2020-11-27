@@ -23,7 +23,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-version = "1.0.4"
+version = "1.0.5"
 
 project.extra["PluginName"] = "Oofie GlassMaker"
 project.extra["PluginDescription"] = "Automatically makes Molten Glass"

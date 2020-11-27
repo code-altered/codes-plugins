@@ -261,8 +261,11 @@ public class glassmakerPlugin extends Plugin {
 	}
 
 	private glassmakerState getBankState() {
-		if (inventory.containsItem(ItemID.BUCKET_OF_SAND) && inventory.containsItem(ItemID.SODA_ASH)) {
+		if ((inventory.getItemCount(ItemID.BUCKET_OF_SAND, false) > 13  && (inventory.getItemCount(ItemID.SODA_ASH, false) > 13))) {
 			return WALK_TO_FURNACE;
+		} else {
+			utils.sendGameMessage("Ran out of Items");
+			shutDown();
 		}
 		if (inventory.containsItem(ItemID.MOLTEN_GLASS)) {
 			return DEPOSIT_ITEMS;
