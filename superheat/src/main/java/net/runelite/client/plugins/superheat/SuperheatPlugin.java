@@ -279,7 +279,7 @@ public class SuperheatPlugin extends Plugin {
         if (bank.isOpen()) {
             return getBankState();
         }
-        if (inventory.containsItem(ItemID.IRON_ORE)) {
+        if (inventory.containsItem(itemID)) {
             targetItem = getItem();
             return (targetItem != null && targetItem.getQuantity() > 0) ? SuperheatState.FIND_ITEM : SuperheatState.ITEM_NOT_FOUND;
         }
@@ -346,9 +346,9 @@ public class SuperheatPlugin extends Plugin {
                     timeout = tickDelay();
                     break;
                 case IDLING:
-                    if (!inventory.containsItem(ItemID.IRON_ORE))
+                    if (!inventory.containsItem(itemID))
                         openBank();
-                    else if (inventory.containsItem(ItemID.IRON_ORE))
+                    else if (inventory.containsItem(itemID))
                         bank.close();
                         castSpell();
             }
@@ -376,13 +376,13 @@ public class SuperheatPlugin extends Plugin {
         }
     }
     private SuperheatState getBankState() {
-        if (inventory.containsItem(ItemID.IRON_ORE)) {
+        if (inventory.containsItem(itemID)) {
             return FIND_ITEM;
         }
         if (inventory.containsItem(ItemID.IRON_BAR)) {
             return DEPOSIT_ITEMS;
         }
-        if (!inventory.containsItem(ItemID.IRON_ORE)) {
+        if (!inventory.containsItem(itemID)) {
             return WITHDRAWING_ITEMS;
         } else {
             utils.sendGameMessage("Ran out of Items");
@@ -400,7 +400,7 @@ public class SuperheatPlugin extends Plugin {
            private void withdrawItems() {
               if (inventory.containsItem(ItemID.IRON_BAR))
                  bank.depositAllOfItem(ItemID.IRON_BAR);
-             else if (!inventory.containsItem(ItemID.IRON_ORE) && bank.isOpen()) {
+             else if (!inventory.containsItem(itemID) && bank.isOpen()) {
                 withdrawX(440); //440 = Iron Ore
                 tickDelay();
             }

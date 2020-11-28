@@ -74,6 +74,16 @@ public interface SuperheatConfig extends Config {
         return 440;
     }
 
+//    @ConfigItem(
+//            keyName = "coalID",
+//            name = "coal ID",
+//            description = "Don't touch. Coal.",
+//            position = 16,
+//    )
+//    default int itemID() {
+//        return 453;
+//    }
+
     @ConfigSection(
             keyName = "delayConfig",
             name = "Sleep Delay Configuration",

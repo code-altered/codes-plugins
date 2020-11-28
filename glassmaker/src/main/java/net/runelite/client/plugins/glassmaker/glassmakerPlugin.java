@@ -3,7 +3,6 @@ package net.runelite.client.plugins.glassmaker;
 import com.google.inject.Provides;
 import lombok.extern.slf4j.Slf4j;
 import java.awt.Rectangle;
-
 ///api
 import net.runelite.api.*;
 import net.runelite.api.Point;
@@ -14,11 +13,9 @@ import net.runelite.api.GameObject;
 import net.runelite.api.TileObject;
 import net.runelite.api.ObjectID;
 import net.runelite.api.NullObjectID;
-
 import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.coords.WorldArea;
 import net.runelite.api.coords.WorldPoint;
-
 import net.runelite.api.events.ConfigButtonClicked;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.GameTick;
@@ -154,7 +151,7 @@ public class glassmakerPlugin extends Plugin {
 	long sleepLength;
 	boolean startGlassMaker;
 	private final Set<Integer> itemIds = new HashSet<>();
-	private final Set<Integer> requiredIds = new HashSet<>();
+//	private final Set<Integer> requiredIds = new HashSet<>();
 	Rectangle clickBounds;
 
 	@Provides
@@ -169,7 +166,7 @@ public class glassmakerPlugin extends Plugin {
 		botTimer = null;
 		skillLocation = null;
 		startGlassMaker = false;
-		requiredIds.clear();
+//		requiredIds.clear();
 	}
 
 	@Subscribe
@@ -263,22 +260,21 @@ public class glassmakerPlugin extends Plugin {
 	private glassmakerState getBankState() {
 		if ((inventory.getItemCount(ItemID.BUCKET_OF_SAND, false) > 13  && (inventory.getItemCount(ItemID.SODA_ASH, false) > 13))) {
 			return WALK_TO_FURNACE;
-		} else {
-			utils.sendGameMessage("Ran out of Items");
-			shutDown();
+//		} else {
+//			utils.sendGameMessage("Ran out of Items");
+//			shutDown();
 		}
 		if (inventory.containsItem(ItemID.MOLTEN_GLASS)) {
 			return DEPOSIT_ITEMS;
 		}
-		if (!inventory.containsItem(ItemID.MOLTEN_GLASS)) {
+		if (!inventory.containsItem(ItemID.BUCKET_OF_SAND) || !inventory.containsItem(ItemID.SODA_ASH)) {
 			return WITHDRAWING_ITEMS;
-		} else {
-			utils.sendGameMessage("Ran out of Items");
-			shutDown();
+//		} else {
+//			utils.sendGameMessage("Ran out of Items");
+//			shutDown();
 		}
 		return IDLE;
 	}
-
 	public glassmakerState getState() {
 		if (timeout > 0) {
 			return TIMEOUT;
@@ -358,9 +354,9 @@ public class glassmakerPlugin extends Plugin {
 					timeout = tickDelay();
 					break;
 				case IDLE:
-					if (!inventory.containsItem(ItemID.SODA_ASH))
+					if (!inventory.containsItem(ItemID.SODA_ASH) && (!inventory.containsItem(ItemID.BUCKET_OF_SAND)))
 						openBank();
-					else if (inventory.containsItem(ItemID.SODA_ASH))
+					else if (inventory.containsItem(ItemID.SODA_ASH) && (inventory.containsItem(ItemID.BUCKET_OF_SAND)))
 						useFurnace();
 			}
 
@@ -375,16 +371,17 @@ public class glassmakerPlugin extends Plugin {
 		}
 	}
 	private void withdrawItems() {
-		if (inventory.containsItem(ItemID.MOLTEN_GLASS) && inventory.containsItem(ItemID.BUCKET))
-			bank.depositAll();
-		else if (inventory.isEmpty() && bank.isOpen()) {
+		if (inventory.isEmpty() && bank.isOpen())
+		{
 			withdrawX(1783);
 			tickDelay();
 		}
-		if (inventory.containsItem(ItemID.BUCKET_OF_SAND))
+		else
+		{
+			if(inventory.containsItem(ItemID.BUCKET_OF_SAND))
 			withdrawX(1781);
+		}
 	}
-
 	private void depositItems() {
 		if (inventory.isFull() && bank.isOpen())
 			bank.depositAll();
