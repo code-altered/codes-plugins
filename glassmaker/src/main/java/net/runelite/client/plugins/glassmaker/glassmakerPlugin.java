@@ -89,7 +89,7 @@ public class glassmakerPlugin extends Plugin {
 	private iUtils utils;
 
 	@Inject
-	ActionQueue action;
+	private ActionQueue action;
 
 	@Inject
 	private MouseUtils mouse;
@@ -374,7 +374,6 @@ public class glassmakerPlugin extends Plugin {
 			timeout = 2;
 		}
 	}
-
 	private void withdrawItems() {
 		if (inventory.containsItem(ItemID.MOLTEN_GLASS) && inventory.containsItem(ItemID.BUCKET))
 			bank.depositAll();
