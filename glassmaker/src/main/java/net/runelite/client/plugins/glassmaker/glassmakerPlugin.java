@@ -356,8 +356,11 @@ public class glassmakerPlugin extends Plugin {
 				case IDLE:
 					if (!inventory.containsItem(ItemID.SODA_ASH) && (!inventory.containsItem(ItemID.BUCKET_OF_SAND)))
 						openBank();
-					else if (inventory.containsItem(ItemID.SODA_ASH) && (inventory.containsItem(ItemID.BUCKET_OF_SAND)))
+					else if ((inventory.getItemCount(ItemID.BUCKET_OF_SAND, false) > 13  && (inventory.getItemCount(ItemID.SODA_ASH, false) > 13)))
 						useFurnace();
+//					else if ((inventory.getItemCount(ItemID.BUCKET_OF_SAND, false) < 13  && (inventory.getItemCount(ItemID.SODA_ASH, false) < 13)))
+//						utils.sendGameMessage("Ran out of Items");
+//						shutDown();
 			}
 
 		}
