@@ -68,6 +68,9 @@ class MagicImbuerOverlay extends OverlayPanel
 		tableDelayComponent.addRow("Sleep delay:", plugin.sleepLength + "ms");
 		tableDelayComponent.addRow("Tick delay:", String.valueOf(plugin.timeout));
 
+		tableDelayComponent.addRow("Magic Imbue Count:", String.valueOf(plugin.casts));
+		//pass count from state to here
+
 		if (!tableComponent.isEmpty())
 		{
 			panelComponent.setBackgroundColor(ColorUtil.fromHex("#121212")); //Material Dark default
@@ -86,4 +89,6 @@ class MagicImbuerOverlay extends OverlayPanel
 		}
 		return super.render(graphics);
 	}
+
+
 }

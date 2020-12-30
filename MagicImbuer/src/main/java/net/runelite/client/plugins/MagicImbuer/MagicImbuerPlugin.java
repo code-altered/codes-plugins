@@ -132,6 +132,7 @@ public class MagicImbuerPlugin extends Plugin {
 
 
 	int timeout = 0;
+	int casts = 0; //num of casts
 	long sleepLength;
 	boolean startMagicImbuer;
 	Rectangle clickBounds;
@@ -203,6 +204,7 @@ public class MagicImbuerPlugin extends Plugin {
 
 
 	public MagicImbuerState getState() {
+
 		if (timeout > 0) {
 			return TIMEOUT;
 		}
@@ -239,7 +241,10 @@ public class MagicImbuerPlugin extends Plugin {
 					targetMenu = new MenuEntry("Cast", "<col=00ff00>Magic Imbue</col>", 1 , 57, -1, 14286972, true);
 					utils.oneClickCastSpell(WidgetInfo.SPELL_MAGIC_IMBUE, targetMenu, new Rectangle(0, 0, 0, 0), sleepDelay());
 					playerUtils.handleRun(30, 20);
-					timeout = 13 + tickDelay(); //12.6 rounded up to 13
+					timeout = 14 + tickDelay(); //12.6 rounded up to 14 bc it would miss sometimes at 13
+
+					casts++;
+
 					break;
 				case MOVING:
 					playerUtils.handleRun(30, 20);
@@ -263,4 +268,7 @@ public class MagicImbuerPlugin extends Plugin {
 	private void onMenuOptionClicked(MenuOptionClicked event){
 		log.info(event.toString());
 	}
+
+
+
 }
