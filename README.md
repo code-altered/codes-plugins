@@ -1,4 +1,4 @@
-# code Plugins
+# Code's Plugins
 Magic Imbuer
 - Automatically casts Magic Imbue
 
