@@ -13,7 +13,7 @@ plugins {
     checkstyle
 }
 
-project.extra["GithubUrl"] = "https://github.com/MeApeSmallBrain/oofie-plugins"
+project.extra["GithubUrl"] = "https://github.com/MeApeSmallBrain/code-plugins"
 
 apply<BootstrapPlugin>()
 
@@ -35,8 +35,8 @@ allprojects {
 subprojects {
     group = "com.openosrs.externals"
 
-    project.extra["PluginProvider"] = "Birthday Cat#0376"
-    project.extra["ProjectSupportUrl"] = "https://discord.gg/2f7SWkDuzh"
+    project.extra["PluginProvider"] = "code"
+    project.extra["ProjectSupportUrl"] = "https://discord.com/invite/9fGzEDR"
     project.extra["PluginLicense"] = "3-Clause BSD License"
 
     repositories {

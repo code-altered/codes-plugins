@@ -23,7 +23,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package net.runelite.client.plugins.glassmaker;
+package net.runelite.client.plugins.MagicImbuer;
 
 import net.runelite.client.config.Button;
 import net.runelite.client.config.Config;
@@ -34,8 +34,8 @@ import net.runelite.client.config.ConfigTitleSection;
 import net.runelite.client.config.Range;
 import net.runelite.client.config.Title;
 
-@ConfigGroup("glassmaker")
-public interface glassmakerConfiguration extends Config
+@ConfigGroup("MagicImbuer")
+public interface MagicImbuerConfiguration extends Config
 {
 
 	@ConfigSection(
@@ -232,29 +232,18 @@ public interface glassmakerConfiguration extends Config
 	)
 	default String instructions()
 	{
-		return "Makes Molten Glass at Edgeville furnace.";
+		return "Casts Magic Imbue while you skill.";
 	}
 
 	@ConfigTitleSection(
-		keyName = "glassmakerTitle",
-		name = "Glass Maker Configuration",
+		keyName = "MagicImbuerTitle",
+		name = "Magic Imbue Configuration",
 		description = "",
 		position = 60
 	)
-	default Title glassmaker()
+	default Title MagicImbuer()
 	{
 		return new Title();
-	}
-
-	@ConfigItem(
-			keyName = "bankID",
-			name = "Bank Booth ID",
-			description = "Game Object ID of the Bank Booth you want to use",
-			position = 25
-	)
-	default int bankID()
-	{
-		return 10355;
 	}
 
 
@@ -264,7 +253,7 @@ public interface glassmakerConfiguration extends Config
 		name = "Enable UI",
 		description = "Enable to turn on in game UI",
 		position = 140,
-		titleSection = "glassmakerTitle"
+		titleSection = "MagicImbuerTitle"
 	)
 	default boolean enableUI()
 	{

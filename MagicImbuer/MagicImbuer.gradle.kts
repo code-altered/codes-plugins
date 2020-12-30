@@ -25,12 +25,11 @@
 
 version = "1.0.0"
 
-project.extra["PluginName"] = "superheat"
-project.extra["PluginDescription"] = "Superheats iron ore"
+project.extra["PluginName"] = "Code MagicImbuer"
+project.extra["PluginDescription"] = "Automatically Casts Magic Imbue"
 
 dependencies {
     compileOnly(group = "com.openosrs.externals", name = "iutils", version = "2.3.1+");
-    compileOnly(group = "com.owain.externals", name = "chinbreakhandler", version = "0.0.16")
 }
 
 tasks {

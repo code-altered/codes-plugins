@@ -1,8 +1,6 @@
-# Oofie Plugins
-Molten Glass Maker
-- Start in Edgeville bank. Have Buckets of Sand and Soda Ash.
-- Bugs
-    - Run being turned on while making glass will cause the bot to get stuck in "Animating"
+# code Plugins
+Magic Imbuer
+- Automatically casts Magic Imbue
 
 # Use
 
@@ -13,9 +11,9 @@ You will need to add **three** repositories. Mine, illumines, and Owains.
 
 Mine:
 
-- **Owner:** MeApeSmallBrain
+- **Owner:** code-altered
 
-- **Name:** oofie-plugins
+- **Name:** codes-plugins
 
 illumine's:
 
@@ -23,8 +21,8 @@ illumine's:
 
 - **Name:** illu-plugins
 
-owain's:
+Owain's:
 
-- **Owner:** illumineawake
+- **Owner:** Owain94
 
-- **Name:** illu-plugins
+- **Name:** OpenOSRS-external-plugins-hosting

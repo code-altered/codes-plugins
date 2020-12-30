@@ -23,10 +23,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "Oofie Plugins"
+rootProject.name = "Code Plugins"
 
-include(":glassmaker")
-include(":superheat")
+include(":MagicImbuer")
 
 
 for (project in rootProject.children) {
